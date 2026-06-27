@@ -41,6 +41,8 @@ const RegisterPage = () => {
         });
       }
 
+      document.cookie = `session=${uid}; path=/; max-age=86400`
+      
       // 4. Redirect sesuai role
       if (role === "CUSTOMER") router.push("/dashboard/customer");
       if (role === "MITRA") router.push("/dashboard/mitra");
