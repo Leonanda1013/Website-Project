@@ -28,7 +28,7 @@ const LoginPage = () => {
                 const role = docSnap.data().role
                 
                 document.cookie = `session=${uid}; path=/; max-age=86400`//1hari
-                if(role === "CUSTOMER")router.push("/dashboard/cutomer")
+                if(role === "CUSTOMER")router.push("/dashboard/customer")
                 if(role === "ADMIN")router.push("/dashboard/admin")
                 if(role === "MITRA")router.push("/dashboard/mitra")
             }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+
 export function middleware(request: NextRequest) {
   const session = request.cookies.get("session")?.value;
   const { pathname } = request.nextUrl;
@@ -13,7 +14,7 @@ export function middleware(request: NextRequest) {
   }
 
   if(session){
-    if(pathname==="/login"||pathname==="register"){
+    if(pathname==="/login"||pathname==="/register"){
         return NextResponse.redirect(new URL("/", request.url))
     }
   }
