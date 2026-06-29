@@ -16,7 +16,10 @@ const DashboardCustomer = () => {
   if (loading) return <p>Loading...</p>;
   return (
     <div>
-      <p>Hello this is customer dashboard</p>
+      <h1>Dashboard Customer</h1>
+      <p>Hallo {user?.name}</p>
+      <p>Apakah anda ingin melihat hal yang berih hari ini?</p>
+      <button onClick={()=>router.push("/dashboard/customer/services")}>Ayo Bersihkan</button>
       <LogoutButton />
     </div>
   );
