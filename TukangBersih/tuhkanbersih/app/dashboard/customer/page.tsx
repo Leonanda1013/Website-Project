@@ -11,7 +11,7 @@ const DashboardCustomer = () => {
   useEffect(() => {
     if (!loading && !user) router.push("/login");
     if (!loading && user?.role !== "CUSTOMER") router.push("/login");
-  });
+  },[user,loading, router]);
 
   if (loading) return <p>Loading...</p>;
   return (

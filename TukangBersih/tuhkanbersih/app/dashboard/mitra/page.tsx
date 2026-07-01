@@ -12,7 +12,7 @@ const DashboardMitra = () => {
   useEffect(() => {
     if (!loading && !user) router.push("/login");
     if (!loading && user?.role !== "MITRA") router.push("/login");
-  });
+  },[user,loading,router]);
 
   return (
     <div>

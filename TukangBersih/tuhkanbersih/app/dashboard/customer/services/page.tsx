@@ -22,7 +22,7 @@ const ServicesPage = () => {
   useEffect(() => {
     if (!loading && !user) router.push("/login");
     if (!loading && user?.role !== "CUSTOMER") router.push("/login");
-  }, [user, loading]);
+  }, [user, loading, router]);
 
   useEffect(() => {
     const fetchServices = async () => {

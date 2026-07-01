@@ -16,7 +16,7 @@ const DashboardAdminPage = () => {
     if(!loading && user?.role !== "ADMIN"){
         router.push("/login")
     }
-    },[user,loading] ) // ini fungsinya agar tidak melakukan ini setiap render, hanya melakukannya setiap user dan loading berubah
+    },[user,loading, router] ) // ini fungsinya agar tidak melakukan ini setiap render, hanya melakukannya setiap user dan loading berubah
     return(
         <div>
             <p>Hallo disini merupakah dashboard admin</p>
