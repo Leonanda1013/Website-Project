@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController; //ini import nya
 use App\Http\Controllers\StudyScheduleController; //ini import nya
 use App\Http\Controllers\DailyActivityController; //ini import nya
+use App\Http\Controllers\FinanceController; //ini import nya
+use App\Http\Controllers\CategoryController; //ini import nya
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,5 +35,9 @@ Route::patch('activities/{activity}/toggle', [DailyActivityController::class, 't
      ->name('activities.toggle');
 //    ↑
 // PATCH = update sebagian data (bukan seluruh data seperti PUT)
+
+Route::resource('finances', FinanceController::class);
+
+Route::resource('categories', CategoryController::class);
 
 

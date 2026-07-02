@@ -2,48 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\StudySchedule;
+use Illuminate\Http\Request;
 
 class StudyScheduleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // GET /schedules → tampilkan semua jadwal
     public function index()
     {
-        // Menampilakn Semua jadwal
-        $schedules = StudySchedule::orderBy('day_of_week')
+        $schedules = StudySchedule::where('user_id', auth()->id())
+            ->orderBy('day_of_week')
             ->orderBy('start_time')
             ->get();
 
         return view('schedules.index', compact('schedules'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //GET /schedules/create - tampilkan form tambah
-        return view('schedules.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // POST /schedules → simpan jadwal baru
     public function store(Request $request)
     {
-        // POST /schedules - simpan data baru ke DB
-        // Validasi input
-        $validate = $request->validate([
-            'subject' => 'requered|string|max:255',
+        $validated = $request->validate([
+            'subject'     => 'required|string|max:255',
             'description' => 'nullable|string',
-            'start_time' => 'requered',
-            'end_time' => 'requered',
-            'day_of_week' => 'requered|in:monday,tuesday,wednesday,thrusday,friday,saturday,sunday',
-            'color' => 'nullable|string'
+            'start_time'  => 'required|date_format:H:i',
+            'end_time'    => 'required|date_format:H:i|after:start_time',
+            'day_of_week' => 'required|in:monday,tuesday,wednesday,thursday,friday,saturday,sunday',
+            'color'       => 'nullable|string',
         ]);
+
+        $validated['user_id'] = auth()->id();
 
         StudySchedule::create($validated);
 
@@ -51,37 +38,19 @@ class StudyScheduleController extends Controller
             ->with('success', 'Jadwal berhasil ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        // GET /schedules/{id} - tampilkan detail jadwal
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        // GET /schedules/{id}/edit -tampilkan form edit
-        // Laravel otomatis cari data by ID (ROute Model Binding)
-        return view('schedules.edit', compact('schedules'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+    // PUT /schedules/{id} → update jadwal
     public function update(Request $request, StudySchedule $schedule)
     {
-        // PUT /schedules/{id} - simpan hasil edit
-        $validate = $request->validate([
-            'subject' => 'requered|string|max:255',
-            'description' => 'nullable|string',
-            'start_time' => 'requered',
-            'end_time' => 'requered',
-            'day_of_week' => 'requered|in:monday,tuesday,wednesday,thrusday,friday,saturday,sunday',
-            'color' => 'nullable|string'
+        // Pastikan hanya pemilik yang bisa edit
+        $this->authorize('update', $schedule); // pakai Policy (opsional)
+        // atau manual:
+        abort_if($schedule->user_id !== auth()->id(), 403);
+
+        $validated = $request->validate([
+            'subject'    => 'required|string|max:255',
+            'start_time' => 'required|date_format:H:i',
+            'end_time'   => 'required|date_format:H:i|after:start_time',
+            'day_of_week'=> 'required|in:monday,tuesday,wednesday,thursday,friday,saturday,sunday',
         ]);
 
         $schedule->update($validated);
@@ -90,16 +59,13 @@ class StudyScheduleController extends Controller
             ->with('success', 'Jadwal berhasil diupdate!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // DELETE /schedules/{id}
     public function destroy(StudySchedule $schedule)
     {
-        // DELETE /schedules/{id} - hapus data
+        abort_if($schedule->user_id !== auth()->id(), 403);
         $schedule->delete();
 
         return redirect()->route('schedules.index')
-            ->with('success', 'Jadwal berhasil dihapus!');
-
+            ->with('success', 'Jadwal dihapus!');
     }
 }
