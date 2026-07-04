@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BooksController;
+use App\Http\Controllers\MembersCOntroller;
+use App\Http\Controllers\BorrowsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('categories', CategoryController::class);
+Route::resource('books', BooksController::class);
+Route::resource('members', MembersCOntroller::class);
+Route::resource('borrows', BorrowsController::class);
