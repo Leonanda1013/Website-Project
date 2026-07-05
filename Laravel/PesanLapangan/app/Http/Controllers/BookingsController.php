@@ -38,15 +38,12 @@ class BookingsController extends Controller
             'start_time' => 'required|date_format:H:i',
         ]);
         $end_time = date('H:i', strtotime($request->start_time . ' + 1 hour'));
-        $isBookingExists = Booking::where('court_id', $request->court_id)
+        $isBookingExists = Booking::where('court_id' , $request->court_id)
+            ->where('status', '!=', 'cancelled')
             ->where('booking_date', $request->booking_date)
-            ->where(function ($query) use ($request, $end_time) {
-                $query->whereBetween('start_time', [$request->start_time, $end_time])
-                      ->orWhere('status','!==','cancelled')
-                      ->orWhere(function ($query) use ($request, $end_time) {
-                          $query->where('start_time', '<=', $request->start_time)
-                                ->where('end_time', '>=', $end_time);
-                      });
+            ->where(function ($query) use ($request, $end_time){
+                $query->where('start_time', '<', $end_time)
+                    ->orWhere('end_time','>',$request->start_time);
             })
             ->exists();
         if ($isBookingExists) {
