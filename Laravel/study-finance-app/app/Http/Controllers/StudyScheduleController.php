@@ -10,14 +10,16 @@ class StudyScheduleController extends Controller
     // GET /schedules → tampilkan semua jadwal
     public function index()
     {
-        $schedules = StudySchedule::where('user_id', auth()->id())
-            ->orderBy('day_of_week')
-            ->orderBy('start_time')
+
+        $schedules = StudySchedule::where('is_active', '=', '1')
             ->get();
 
         return view('schedules.index', compact('schedules'));
     }
 
+    public function create(){
+        return view('schedules.create');
+    }
     // POST /schedules → simpan jadwal baru
     public function store(Request $request)
     {

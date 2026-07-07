@@ -17,11 +17,8 @@ use App\Http\Controllers\CategoryController; //ini import nya
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('dashboard', [DashboardController::class, 'index']);
+Route::get('/', [DashboardController::class, 'index']);
 
 // Satu baris ini otomatis membuat 7 route sekaligus!
 Route::resource('schedules', StudyScheduleController::class);

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal Belajar</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-gray-100 p-8">
 
@@ -12,6 +13,7 @@
 
         {{-- Header --}}
         <div class="flex items-center justify-between mb-6">
+            <a href="/"><i data-lucide="arrow-left" class="w-5 h-5"></i></a>
             <h1 class="text-2xl font-bold text-gray-800">📚 Jadwal Belajar</h1>
             <a href="{{ route('schedules.create') }}"
                class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700">
@@ -98,5 +100,8 @@
         @endif
 
     </div>
+        <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>

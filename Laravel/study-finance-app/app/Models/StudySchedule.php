@@ -11,6 +11,7 @@ class StudySchedule extends Model
 
     // Kolom yang boleh diisi via create() atau update()
     // Agar tidak terjadi mass asignment attack
+    protected $table = 'study_schedules';
     protected $fillable = [
         'subject',
         'description',

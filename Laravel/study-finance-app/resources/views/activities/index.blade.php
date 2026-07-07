@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kegiatan Hari Ini</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-gray-100 p-8">
 <div class="max-w-2xl mx-auto">
 
     {{-- Header --}}
     <div class="flex items-center justify-between mb-2">
+        <a href="/"><i data-lucide="arrow-left" class="w-5 h-5"></i></a>
         <h1 class="text-2xl font-bold text-gray-800">📅 Kegiatan Hari Ini</h1>
         <a href="{{ route('activities.create') }}"
            class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700">
@@ -124,5 +126,8 @@
     </div>
 
 </div>
+        <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
