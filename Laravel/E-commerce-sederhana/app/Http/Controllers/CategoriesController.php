@@ -3,18 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Products;
 use App\Models\Categories;
 
-class ProductsController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Products::all();
-        return view('products.index', compact('products'));
+        $categories = Categories::all();
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -22,8 +21,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $categories = Categories::all();
-        return view('products.create', compact('categories'));
+        return view('categories.create');
     }
 
     /**
@@ -33,13 +31,10 @@ class ProductsController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|integer',
-            'stock' => 'required|integer',
-            'category_id' => 'required|exists:categories,id'
         ]);
 
-        Products::create($validated);
-        return redirect()->route('products.index');
+        Categories::create($validated);
+        return redirect()->route('categories.index');
     }
 
     /**
