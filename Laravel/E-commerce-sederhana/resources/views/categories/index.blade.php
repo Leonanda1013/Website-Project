@@ -19,6 +19,7 @@
                 <tr>
                 <th>NO</th>
                 <th>Name</th>
+                <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +27,9 @@
                     <tr>
                         <td>{{$loop->iteration}}</td>
                         <td>{{$category->name}}</td>
+                        <td>
+                            <button type="button" onclick="window.location.href='{{route('categories.edit',$category->id)}}'">Edit</button>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

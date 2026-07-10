@@ -50,7 +50,8 @@ class CategoriesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = Categories::findOrFail($id);
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -58,7 +59,13 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+        $categories = Categories::findOrFail($id);
+        $categories->update($validated);
+
+        return redirect()->route('categories.index');
     }
 
     /**
