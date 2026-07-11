@@ -29,6 +29,11 @@
                         <td>{{$category->name}}</td>
                         <td>
                             <button type="button" onclick="window.location.href='{{route('categories.edit',$category->id)}}'">Edit</button>
+                            <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
