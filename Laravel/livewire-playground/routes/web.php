@@ -13,3 +13,7 @@ Route::get('/counter', function(){
 Route::get('/contact-form', function(){
     return view('contact-form-page');
 });
+
+Route::get('/admin-only', function(){
+    return 'Selamat datang, kamu admin!';
+})->middleware('role:admin');
