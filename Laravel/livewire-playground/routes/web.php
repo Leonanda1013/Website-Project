@@ -9,3 +9,7 @@ Route::get('/', function () {
 Route::get('/counter', function(){
     return view('counter-page');
 });
+
+Route::get('/contact-form', function(){
+    return view('contact-form-page');
+});
