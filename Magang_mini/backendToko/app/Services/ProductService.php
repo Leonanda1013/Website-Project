@@ -34,4 +34,22 @@ class ProductService
     {
         return $this->productRepository->findOrFail($id);
     }
+
+    /*
+        *Memperbarui data produk yang ada.
+        *
+        * @param int $id ID produk yang akan diupdate
+        * @param array $data Data baru hasil validasi Form request
+        * @return Product
+        * @throws ModelNotFoundException Jika produk tidak ditemukan
+    */
+    public function updateProduct(int $id, array $data): Product
+    {
+        $product = $this->productRepository->findOrFail($id);
+        $this->productRepository->update($product, $data);
+
+
+        // $product->fres() mengambil data paling segar dari database setelah di update
+        return $product->fresh();
+    }
 }

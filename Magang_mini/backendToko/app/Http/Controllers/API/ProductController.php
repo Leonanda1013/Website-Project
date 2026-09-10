@@ -11,6 +11,7 @@ use App\Helpers\ResponseHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Requests\Product\UpdateProductRequest;
 
 class ProductController extends Controller
 {
@@ -65,4 +66,32 @@ class ProductController extends Controller
             return ResponseHelper::error('Gagal mengambil data produk.', 500);
         }
     }
+
+    /* Memperbarui data produk
+
+    @param UpdateProductRequest $request
+    @param int $id
+    @return JsonResponse
+
+    */
+
+    public function update(UpdateProductRequest $request, int $id): JsonResponse
+    {
+        try {
+            $product = $this->productService->updateProduct($id, $request->validated());
+
+            return ResponseHelper::success(
+                new ProductResource($product),
+                'Produk berhasil diperbarui.'
+            );
+        } catch (ModelNotFoundException $e) {
+            return ResponseHelper::error('Produk tidak ditemukan.', 404);
+        } catch (\Exception $e) {
+            Log::error('ProductController@update: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+            return ResponseHelper::error('Gagal memperbarui produk.', 500);
+        }
+    }
+
 }
