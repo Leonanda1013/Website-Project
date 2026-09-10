@@ -94,4 +94,28 @@ class ProductController extends Controller
         }
     }
 
+/*
+    Menhapus produk dari sistem.
+
+    @param int $id
+    @return JsonResponse
+*/
+
+    public function destroy(int $id): JsonResponse
+    {
+        try {
+            $this->productService->deleteProduct($id);
+
+            return ResponseHelper::success(null, 'Produk berhasil dihapus.');
+        } catch (ModelNotFoundException $e) {
+            return ResponseHelper::error('Produk tidak ditemukan.', 404);
+        } catch (\Exception $e) {
+            Log::error('ProductController@destroy: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+            return ResponseHelper::error('Gagal menghapus produk.', 500);
+        }
+    }
+
 }
+

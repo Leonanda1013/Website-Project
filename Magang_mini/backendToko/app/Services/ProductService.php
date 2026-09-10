@@ -52,4 +52,16 @@ class ProductService
         // $product->fres() mengambil data paling segar dari database setelah di update
         return $product->fresh();
     }
+/*
+    Mengapus produk berdasarkan ID
+
+    @param int $id ID produk yang akan dihapus
+    @return bool
+    @throws ModelNotFoundException Jika produk tidak ditemukan
+ */
+    public function deleteProduct(int $id): bool
+    {
+        $product = $this->productRepository->findOrFail($id);
+        return $this->productRepository->delete($product);
+    }
 }
