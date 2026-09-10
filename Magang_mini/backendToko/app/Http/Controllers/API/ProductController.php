@@ -10,6 +10,7 @@ use App\Http\Resources\ProductResource;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductController extends Controller
 {
@@ -36,6 +37,32 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             Log::error('ProductController@store: ' . $e->getMessage());
             return ResponseHelper::error('Gagal membuat produk.', 500);
+        }
+    }
+
+    /*
+        * Menampilan detail satu produk berdasarkan ID.
+        *
+        * @param int $id ID dari produk yang ingin dilihat
+        * @return JsonResponse
+    */
+
+    public function show(int $id): JsonResponse
+    {
+        try {
+            $product = $this->productService->getProductById($id);
+
+            return ResponseHelper::success(
+                new ProductResource($product),
+                'Data produk berhasil diambil.'
+            );
+        } catch (ModelNotFoundException $e){
+            return ResponseHelper::error('Produk tidak ditemukan.', 404);
+        } catch (\Exception $e) {
+            Log::error('ProductController@show: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+            return ResponseHelper::error('Gagal mengambil data produk.', 500);
         }
     }
 }

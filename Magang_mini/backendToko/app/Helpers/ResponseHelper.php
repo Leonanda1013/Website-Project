@@ -15,7 +15,7 @@ class ResponseHelper
         ], $statusCode);
     }
 
-    public static function error(string $message = 'Terjasi kesalahn.',
+    public static function error(string $message = 'Terjasi kesalahan.',
         int $statusCode = 400,
         mixed $errors = null): JsonResponse{
             $body = ['status' => false, 'message' => $message];
